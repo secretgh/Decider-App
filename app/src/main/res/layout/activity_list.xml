@@ -4,53 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListActivity"
-    android:background="@color/Spanish_Gray">
+    android:background="@color/Spanish_Gray"
+    tools:context=".ListActivity">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnToDecide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:tint="@color/Timberwolf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_down_arrow"
-        android:tint="@color/Timberwolf"
-        />
+        app:srcCompat="@drawable/ic_down_arrow" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOptions"
-        android:layout_width="404dp"
-        android:layout_height="621dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etOption" />
+        app:layout_constraintTop_toBottomOf="@+id/etOption"
+        tools:listitem="@layout/list_item_option" />
 
     <EditText
-        android:layout_marginLeft="5dp"
         android:id="@+id/etOption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="8dp"
+        android:textColor="@color/Timberwolf"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/btnEnter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/btnToDecide" />
 
     <Button
         android:id="@+id/btnEnter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter"
         android:layout_marginHorizontal="10dp"
         android:background="@color/Xanadu"
+        android:text="Enter"
         android:textColor="@color/Timberwolf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/etOption"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/btnToDecide" />
 </androidx.constraintlayout.widget.ConstraintLayout>
