@@ -5,6 +5,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
+import android.view.KeyboardShortcutGroup
+import android.view.View
 import android.view.Window
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_list.*
@@ -17,12 +21,13 @@ class ListActivity : AppCompatActivity() {
 
         //Get list of options from decideActivity
         options = intent.getStringArrayListExtra("options") as ArrayList<String>
-        var listAdapter = ListAdpater(options)
-
+        var listAdapter = ListAdpater(options, etOption)
+        Log.d("Options", options.toString())
         //Update adapter for recyclerview
         rvOptions.adapter = listAdapter
         rvOptions.layoutManager = LinearLayoutManager(this)
         rvOptions.setHasFixedSize(true)
+
 
         btnToDecide.setOnClickListener {
             //Update list
@@ -44,10 +49,22 @@ class ListActivity : AppCompatActivity() {
             }
         }
 
+        etOption.setOnKeyListener( View.OnKeyListener { v, keyCode, event ->
+            if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP){
+                val title = etOption.text.toString()
+                if(title.isNotBlank() && !options.contains(title)){
+                    options.add(title)
+                    etOption.text.clear()
+                    options.sort()
+                    listAdapter.notifyDataSetChanged()
+                }
+                return@OnKeyListener true
+            }
+            false
+        })
     }
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
     }
 }
