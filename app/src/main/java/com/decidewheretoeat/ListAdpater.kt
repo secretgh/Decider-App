@@ -1,6 +1,5 @@
-package com.decideforme
+package com.decidewheretoeat
 
-import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View

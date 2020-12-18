@@ -1,4 +1,4 @@
-package com.decideforme
+package com.decidewheretoeat
 
 import android.Manifest
 import android.content.Context

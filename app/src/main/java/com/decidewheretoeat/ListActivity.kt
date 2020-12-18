@@ -1,15 +1,12 @@
-package com.decideforme
+package com.decidewheretoeat
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.KeyboardShortcutGroup
 import android.view.View
-import android.view.Window
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_list.*
 
