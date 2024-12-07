@@ -1,4 +1,4 @@
-package com.decidewheretoeat
+package com.example.decideforme
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,12 +8,12 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.list_item_option.view.*
+import com.example.decideforme.databinding.ListItemOptionBinding
 
 class ListAdpater(private val listOfOptions: ArrayList<String>, private var editText: EditText) : RecyclerView.Adapter<ListAdpater.ListViewHolder>(){
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtTitle: TextView = itemView.tvOptionTitle
-        val btnDelete: ImageButton = itemView.btnDelete
+        val txtTitle: TextView = ListItemOptionBinding.bind(itemView).tvOptionTitle
+        val btnDelete: ImageButton = ListItemOptionBinding.bind(itemView).btnDelete
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {

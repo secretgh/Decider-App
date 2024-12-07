@@ -1,4 +1,4 @@
-package com.decidewheretoeat
+package com.example.decideforme
 
 import org.junit.Test
 

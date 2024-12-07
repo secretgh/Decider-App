@@ -1,4 +1,4 @@
-package com.decidewheretoeat
+package com.example.decideforme
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -9,22 +9,26 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_decide.*
-import kotlinx.android.synthetic.main.dialog_options.view.*
+import com.example.decideforme.databinding.ActivityDecideBinding
+import com.example.decideforme.databinding.DialogOptionsBinding
 import kotlin.random.Random
 import android.util.Pair as UtilPair
-
 
 class DecideActivity : AppCompatActivity() {
     var options = ArrayList<String>()
     var lastOption = ""
 
+    private lateinit var activityDecideBinding: ActivityDecideBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_decide)
+
+        activityDecideBinding = ActivityDecideBinding.inflate(layoutInflater)
+
+        setContentView(activityDecideBinding.root)
 
         //Retrieve set of options from preferences and convert to array
-        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
         var savedOptions = sharedPref.getStringSet("options", null)
         lastOption = sharedPref.getString("lastOption", "")!!
 
@@ -37,16 +41,16 @@ class DecideActivity : AppCompatActivity() {
 
         }
 
-        btnDecide.setOnClickListener {
+        activityDecideBinding.btnDecide.setOnClickListener {
             if(options.isEmpty()) {
 //                Toast.makeText(
 //                    this,
 //                    "Currently your options are empty, add more with the option menu below.",
 //                    Toast.LENGTH_LONG
 //                ).show()
-                val view = LayoutInflater.from(this).inflate(R.layout.dialog_options, null)
+                val view = DialogOptionsBinding.bind(LayoutInflater.from(this).inflate(R.layout.dialog_options, null))
                 val builder = AlertDialog.Builder(this)
-                builder.setView(view)
+                builder.setView(view.root)
                 val alert = builder.show()
 
                 view.ivAccept.setOnClickListener {
@@ -81,11 +85,11 @@ class DecideActivity : AppCompatActivity() {
             }
         }
 
-        btnToListMenu.setOnClickListener {
+        activityDecideBinding.btnToListMenu.setOnClickListener {
             //Toast.makeText(this,"Currently a work in progress, this will take you to the list of items", Toast.LENGTH_LONG).show()
             val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
                 this,
-                UtilPair.create(btnToListMenu, "imageTransition")
+                UtilPair.create(activityDecideBinding.btnToListMenu, "imageTransition")
             )
             val intent = Intent(this, ListActivity::class.java).apply {
                 this.putStringArrayListExtra("options", options)
@@ -103,17 +107,19 @@ class DecideActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1){
-            if(resultCode == Activity.RESULT_OK && data != null){
+            if(resultCode == RESULT_OK && data != null){
                 //get list, update list
                 var newOptions = data.getStringArrayListExtra("options")
-                options = newOptions
+                if (newOptions != null) {
+                    options = newOptions
+                }
                 saveOptions()
             }
         }
     }
 
     private fun saveOptions(){
-        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
         with(sharedPref.edit()){
             putStringSet("options", options.toSet())
             apply()
@@ -121,7 +127,7 @@ class DecideActivity : AppCompatActivity() {
     }
 
     private fun saveLastOption(){
-        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
         with(sharedPref.edit()){
             putString("lastOptions", lastOption)
             apply()

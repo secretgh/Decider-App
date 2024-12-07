@@ -1,4 +1,4 @@
-package com.decidewheretoeat
+package com.example.decideforme
 
 import android.app.Activity
 import android.content.Intent
@@ -8,25 +8,29 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_list.*
+import com.example.decideforme.databinding.ActivityListBinding
 
 class ListActivity : AppCompatActivity() {
     var options = ArrayList<String>()
+    private lateinit var activityListBinding: ActivityListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        activityListBinding = ActivityListBinding.inflate(layoutInflater)
+        val view = activityListBinding.root
+        setContentView(view)
 
         //Get list of options from decideActivity
         options = intent.getStringArrayListExtra("options") as ArrayList<String>
-        var listAdapter = ListAdpater(options, etOption)
+        var listAdapter = ListAdpater(options, activityListBinding.etOption)
         Log.d("Options", options.toString())
         //Update adapter for recyclerview
-        rvOptions.adapter = listAdapter
-        rvOptions.layoutManager = LinearLayoutManager(this)
-        rvOptions.setHasFixedSize(true)
+        activityListBinding.rvOptions.adapter = listAdapter
+        activityListBinding.rvOptions.layoutManager = LinearLayoutManager(this)
+        activityListBinding.rvOptions.setHasFixedSize(true)
 
 
-        btnToDecide.setOnClickListener {
+        activityListBinding.btnToDecide.setOnClickListener {
             //Update list
             var returnData = Intent()
             returnData.putStringArrayListExtra("options",options)
@@ -36,22 +40,22 @@ class ListActivity : AppCompatActivity() {
             finish()
         }
 
-        btnEnter.setOnClickListener {
-            val title = etOption.text.toString()
+        activityListBinding.btnEnter.setOnClickListener {
+            val title = activityListBinding.etOption.text.toString()
             if(title.isNotBlank() && !options.contains(title)){
                 options.add(title)
-                etOption.text.clear()
+                activityListBinding.etOption.text.clear()
                 options.sort()
                 listAdapter.notifyDataSetChanged()
             }
         }
 
-        etOption.setOnKeyListener( View.OnKeyListener { v, keyCode, event ->
+        activityListBinding.etOption.setOnKeyListener( View.OnKeyListener { v, keyCode, event ->
             if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP){
-                val title = etOption.text.toString()
+                val title = activityListBinding.etOption.text.toString()
                 if(title.isNotBlank() && !options.contains(title)){
                     options.add(title)
-                    etOption.text.clear()
+                    activityListBinding.etOption.text.clear()
                     options.sort()
                     listAdapter.notifyDataSetChanged()
                 }
